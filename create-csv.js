@@ -2,7 +2,10 @@ var csv = '';
 var nl = '\n';
 var $table = $('table:not(".extPibTable")');
 var statement_date = $('.extContentHighlightPib:eq(1) .extPibRow:eq(0) .hsbcTextRight').html();
-var year = statement_date.substr(statement_date.length-4);
+var year = statement_date.split(" ")[2]; //statement_date.substr(statement_date.length-4);
+var month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(statement_date.split(" ")[1]) / 3 + 1;
+var day = statement_date.split(" ")[0];
+var file_name = 'HSBC current - month ending ' + year + '.' + month + '.' + day;
 
 // build header
 $('thead th', $table).each(function(){
@@ -60,6 +63,6 @@ $('tbody tr', $table).each(function(){
 
 var data = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
 
-$('body').append('<a href="'+data+'" download="statement-'+(statement_date.replace(' ', '-'))+'.csv" id="download-statement" style="display: none;">Download</a>');
+$('body').append('<a href="'+data+'" download="'+file_name+'.csv" id="download-statement" style="display: none;">Download</a>');
 
 $('#download-statement')[0].click();
