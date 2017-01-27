@@ -1,1 +1,4 @@
 javascript:function%20loadScript(scriptURL)%7Bvar%20scriptElem%3Ddocument.createElement('script')%3BscriptElem.setAttribute('language'%2C'JavaScript')%3BscriptElem.setAttribute('src'%2CscriptURL)%3Bdocument.body.appendChild(scriptElem)%3B%7DloadScript('%2F%2Fajax.googleapis.com%2Fajax%2Flibs%2Fjquery%2F1.9.1%2Fjquery.min.js')%3BloadScript('https%3A%2F%2Fraw.github.com%2Fdahousecat%2Fhsbc-statement-to-csv%2Fmaster%2Fcreate-csv.js')%3B
+
+
+javascript:function loadScript(scriptURL){var scriptElem=document.createElement('script');scriptElem.setAttribute('language','JavaScript');scriptElem.setAttribute('src',scriptURL);document.body.appendChild(scriptElem);}loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');loadScript('https://rawgit.com/ebotech/hsbc-statement-to-csv/master/create-csv.js')
