@@ -22,18 +22,17 @@ $('tbody tr', $table).slice(1, $table.length).each(function(){
     var month = months.indexOf(segs[1]) / 3 + 1;
     var year = segs[2];
     var amo = $($('td', tmp)[2]).text().split("Amount")[1];
-    if (amo) {    
+    if (amo) {
 	csv = csv + '"' + day + '/' + month + '/' + year + '",';
 
-	csv = csv + amo + ',';
+	csv = csv + amo.replace(/,/g, '')) + ',';
 
 	var desc = $($('td', tmp)[1]).text().split("Description")[1];
 	csv = csv + '"' + desc + '",';
-
-	if (desc == "Closing balance this month") {
-	    done = true;
-	}
 	csv = csv + nl;
+    }
+    if (desc == "Closing balance this month") {
+	done = true;
     }
 });
 
