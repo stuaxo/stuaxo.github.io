@@ -3,7 +3,7 @@ var nl = '\n';
 var $table = $('table:not(".extPibTable")');
 var statement_date = $("span[data-dojo-attach-point='statementDate']").html();
 var year = statement_date.split(" ")[2];
-var months = "JanFebMarAprMayJunJulAugSepOctNovDec"
+var months = "JanFebMarAprMayJunJulAugSepOctNovDec";
 var month = months.indexOf(statement_date.split(" ")[1]) / 3 + 1;
 var day = statement_date.split(" ")[0];
 var file_name = 'HSBC current - month ending ' + year + '.' + month + '.' + day;
@@ -21,20 +21,20 @@ $('tbody tr', $table).slice(1, $table.length).each(function(){
     var day = segs[0];
     var month = months.indexOf(segs[1]) / 3 + 1;
     var year = segs[2];
-    csv = csv + '"' + day + '/' + month + '/' + year + '",';    
-    
     var amo = $($('td', tmp)[2]).text().split("Amount")[1];
-    if (typeof amo == 'undefined') { amo = ""; }
-    csv = csv + amo + ',';
+    if (amo) {    
+	csv = csv + '"' + day + '/' + month + '/' + year + '",';
 
-    var desc = $($('td', tmp)[1]).text().split("Description")[1];
-    csv = csv + '"' + desc + '",';
+	csv = csv + amo + ',';
 
-    if (desc == "Closing balance this month") {
-	done = true;
+	var desc = $($('td', tmp)[1]).text().split("Description")[1];
+	csv = csv + '"' + desc + '",';
+
+	if (desc == "Closing balance this month") {
+	    done = true;
+	}
+	csv = csv + nl;
     }
-    csv = csv + nl;
-
 });
 
 var data = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
