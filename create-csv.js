@@ -16,20 +16,20 @@ var done = false;
 $('tbody tr:not(".dijitReset")', $table).slice(1, $table.length).each(function(){
     tmp = this;
     if (done) { return; }
-    console.log(tmp)
     var date = $($('td', tmp)[0]).text().split("Date")[1];
     var segs = date.split(' ');
     var day = segs[0];
     var month = months.indexOf(segs[1]) / 3 + 1;
     var year = segs[2];
     var amo = $($('td', tmp)[2]).text().split("Amount")[1];
+    console.log(tmp)
     if (amo) {
-	csv = csv + '"' + day + '/' + month + '/' + year + '",';
+	csv = csv + day + '/' + month + '/' + year + ',';
 
 	csv = csv + amo.replace(/,/g, '') + ',';
 
 	var desc = $($('td', tmp)[1]).text().split("Description")[1];
-	csv = csv + '"' + desc + '",';
+	csv = csv + desc.replace(/[,'"]/g, '') + ',';
 	csv = csv + nl;
     }
     if (desc == "Closing balance this month") {
