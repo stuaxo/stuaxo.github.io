@@ -16,6 +16,7 @@ var done = false;
 $('tbody tr', $table).slice(1, $table.length).each(function(){
     tmp = this;
     if (done) { return; }
+    console.log(tmp)
     var date = $($('td', tmp)[0]).text().split("Date")[1];
     var segs = date.split(' ');
     var day = segs[0];
