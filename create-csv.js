@@ -24,12 +24,12 @@ $('tbody tr:not(".dijitReset")', $table).slice(1, $table.length).each(function()
     var amo = $($('td', tmp)[2]).text().split("Amount")[1];
     console.log(tmp)
     if (amo) {
-	csv = csv + day + '/' + month + '/' + year + ',';
+	csv = csv + day + '/' + month + '/20' + year + ',';
 
 	csv = csv + amo.replace(/,/g, '') + ',';
 
 	var desc = $($('td', tmp)[1]).text().split("Description")[1];
-	csv = csv + desc.replace(/[,'"]/g, '') + ',';
+	csv = csv + desc.replace(/[,'"]/g, '');
 	csv = csv + nl;
     }
     if (desc == "Closing balance this month") {
