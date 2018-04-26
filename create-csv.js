@@ -22,11 +22,10 @@ $('tbody tr', $table).slice(1, $table.length).each(function(){
     var month = months.indexOf(segs[1]) / 3 + 1;
     var year = segs[2];
     var amo = $($('td', tmp)[2]).text().split("Amount")[1];
-    console.log(amo)
     if (amo) {
 	csv = csv + '"' + day + '/' + month + '/' + year + '",';
 
-	csv = csv + amo.replace(/,/g, '')) + ',';
+	csv = csv + amo.replace(/,/g, '') + ',';
 
 	var desc = $($('td', tmp)[1]).text().split("Description")[1];
 	csv = csv + '"' + desc + '",';
