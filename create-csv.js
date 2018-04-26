@@ -13,7 +13,7 @@ var tmp = '';
 // get rest of data
 var done = false;
 // loop rows
-$('tbody tr', $table).slice(1, $table.length).each(function(){
+$('tbody tr:not(".dijitReset")', $table).slice(1, $table.length).each(function(){
     tmp = this;
     if (done) { return; }
     console.log(tmp)
