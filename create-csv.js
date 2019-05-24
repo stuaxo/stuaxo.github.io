@@ -1,42 +1,34 @@
-var csv = '';
-var nl = '\n';
-var $table = $('table:not(".extPibTable")');
-var statement_date = $("span[data-dojo-attach-point='statementDate']").html();
-var year = statement_date.split(" ")[2];
 var months = "JanFebMarAprMayJunJulAugSepOctNovDec";
-var month = months.indexOf(statement_date.split(" ")[1]) / 3 + 1;
-var day = statement_date.split(" ")[0];
-var file_name = 'HSBC current - month ending ' + year + '.' + month + '.' + day;
+function reformatHSBCDate(dmy, seperator) {  // example HSBC date: 15 Jan 08
+    var [day, month, year] = dmy.split(' '); 
+    return [2000 + Number(year), months.indexOf(month) / 3 + 1, day].join(seperator || '.');
+}
 
-var tmp = '';
+var statement_date = document.querySelector("span[data-dojo-attach-point='statementDate']").textContent;
+var file_name = `HSBC current - month ending ${reformatHSBCDate(statement_date, '.')}`;
 
-// get rest of data
-var done = false;
-// loop rows
-$('tbody tr:not(".dijitReset")', $table).slice(1, $table.length).each(function(){
-    tmp = this;
-    if (done) { return; }
-    var date = $($('td', tmp)[0]).text().split("Date")[1];
-    var segs = date.split(' ');
-    var day = segs[0];
-    var month = months.indexOf(segs[1]) / 3 + 1;
-    var year = segs[2];
-    var amo = $($('td', tmp)[2]).text().split("Amount")[1];
-    console.log(tmp)
-    if (amo) {
-	csv = csv + day + '/' + month + '/20' + year + ',';
+var csv = '';
+var table = document.querySelectorAll('table:not(.extPibTable) tbody tr:not(.dijitReset)');
+Array.from(table).some(function(element){
+    var cells = element.cells;
+    var date = cells[0].textContent.replace(/^Date/, '');
+    var description = cells[1].textContent.replace(/^Description/, '');
+    var amount = cells[2].textContent.replace(/^Amount/, '');
 
-	csv = csv + amo.replace(/,/g, '') + ',';
-
-	var desc = $($('td', tmp)[1]).text().split("Description")[1];
-	csv = csv + desc.replace(/[,'"]/g, '');
-	csv = csv + nl;
-    }
-    if (desc == "Closing balance this month") {
-	done = true;
+    if (description == "Closing balance this month") { 
+        return true 
+    };
+    if (amount) {
+        var line = 
+            `${reformatHSBCDate(date, '/')},` +
+            `${amount.replace(/,/g, '')},` +
+            `${description.replace(/[,'"]/g, '')}`;
+        csv += `${line}\n`;
     }
 });
 
 var data = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-$('body').append('<a href="'+data+'" download="'+file_name+'.csv" id="download-statement" style="display: none;">Download</a>');
-$('#download-statement')[0].click();
+document.body.insertAdjacentHTML('afterend', `<a href="${data}" download="${file_name}.csv" id="download-statement" style="display: none;">Download</a>`);
+var download_link = document.getElementById('download-statement')
+download_link.click();
+download_link.remove();
