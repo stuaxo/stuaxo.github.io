@@ -23,7 +23,7 @@ function generateCSV() {
         .map(readStatementLine)
         .filter(statementLine => statementLine.amount)
         .filter(statementLine => "Closing balance this month" != statementLine.description)
-        .map(statementLine => `${statementLine.date},${statementLine.description},${statementLine.amount}`)
+        .map(statementLine => `${statementLine.date},${statementLine.amount},${statementLine.description}`)
         .join('\n')
     const data = `data:application/csv;charset=utf-8,${encodeURIComponent(csv)}`
 
